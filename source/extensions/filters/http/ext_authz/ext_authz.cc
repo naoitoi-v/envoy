@@ -122,7 +122,9 @@ FilterConfig::FilterConfig(const envoy::extensions::filters::http::ext_authz::v3
           config.response_cache_max_size() != 0 ? config.response_cache_max_size() : 100),
       response_cache_ttl_(config.response_cache_ttl() != 0 ? config.response_cache_ttl() : 10),
       response_cache_header_name_(Http::LowerCaseString(config.response_cache_header_name())),
-      response_cache_(response_cache_max_size_, response_cache_ttl_,
+      response_cache_num_mutexes_(
+          config.response_cache_num_mutexes() != 0 ? config.response_cache_num_mutexes() : 64),
+      response_cache_(response_cache_max_size_, response_cache_ttl_, response_cache_num_mutexes_,
                       factory_context.timeSource()), // response cache
       ext_authz_ok_(pool_.add(createPoolStatName(config.stat_prefix(), "ok"))),
       ext_authz_denied_(pool_.add(createPoolStatName(config.stat_prefix(), "denied"))),

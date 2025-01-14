@@ -284,6 +284,7 @@ private:
   uint32_t response_cache_max_size_;
   uint32_t response_cache_ttl_;
   Envoy::Http::LowerCaseString response_cache_header_name_; // New field for header names
+  uint32_t response_cache_num_mutexes_;
   // Response cache
   FIFOEvictionCache response_cache_;
 
